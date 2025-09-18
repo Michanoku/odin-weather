@@ -1,0 +1,65 @@
+:root {
+  font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+}
+
+input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font: inherit;
+}
+
+#container {
+  min-height: 100vh;
+  min-width: 100vw;
+  display: grid;
+  grid-template-rows: 1fr 3rem 1fr;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas: 
+    'location current additional' 
+    'search search search'
+    'weekly addition1 addition2';
+}
+
+#location {
+  grid-area: location;
+  background-color: red;
+}
+
+#current-condition {
+  grid-area: current;
+  background-color: yellow;
+}
+
+#additional-information {
+  grid-area: additional;
+  background-color: green;
+}
+
+#center-search {
+  grid-area: search;
+  background-color: black;
+}
+
+#weekly-overview {
+  grid-area: weekly;
+  background-color: purple;
+}
+
+#addition1 {
+  grid-area: addition1;
+  background-color: blue;
+}
+
+#addition2 {
+  grid-area: addition2;
+  background-color: pink;
+}
