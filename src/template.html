@@ -7,13 +7,29 @@
 </head>
 <body>
   <div id="container">
-    <div id="location"></div>
-    <div id="current-condition"></div>
-    <div id="additional-information"></div>
-    <div id="center-search"></div>
-    <div id="weekly-overview"></div>
-    <div id="addition1"></div>
-    <div id="addition2"></div>
+    <div id="location">
+      <div id="resolvedAddress"></div>
+      <div id="svg-temp">
+        <div id="svg"></div>
+        <div id="temps">
+          <div id="temp"></div>
+          <div>Feels like <span id="feelslike"></span></div>
+        </div>
+
+      </div>
+      <div id="conditions"></div>
+    </div>
+    <div id="current-condition">
+      WIND HUMIDITY PRECIPITATION CHANGE
+    </div>
+    <div id="additional-information">
+      SUNRISE SUNSET % of day, time until sunset, etc.
+    </div>
+    <div id="center-search">
+      <input id="input" type="text">
+      <button id="submit" type="button">Get Weather</button>
+    </div>
+    <div id="weekly-overview"> DIVIDE INTO 7 </div>
   </div>
 </body>
 </html>
