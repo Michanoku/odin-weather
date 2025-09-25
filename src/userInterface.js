@@ -8,6 +8,9 @@ const elementHandler = (function() {
   const inputField = document.querySelector('#input');
   const submitButton = document.querySelector('#submit');
   const location = document.querySelector('#location');
+  const currentCondition = document.querySelector('#current-condition');
+  const additionalInformation = document.querySelector('#additional-information');
+  const weeklyOverview = document.querySelector('#weekly-overview');
   const svgContainer = document.querySelector('#svg');
 
   const conditionImages = {
@@ -53,13 +56,13 @@ const elementHandler = (function() {
     });
   }
 
-  function createSvg(rawData) {
+  function createSvg(rawData, size) {
     const adjustedSvg = rawData.replaceAll("#000", "#ffffff");
     const parser = new DOMParser();
     const svgDoc = parser.parseFromString(adjustedSvg, "image/svg+xml");
     const svg = svgDoc.documentElement;
-    svg.style.height = "6rem";
-    svg.style.width = "6rem";
+    svg.style.height = `${size}rem`;
+    svg.style.width = `${size}rem`;
     svg.style.fill = '#ffffff';
     return svg;
   }
@@ -67,7 +70,7 @@ const elementHandler = (function() {
   function showWeather(data) {
     console.log(data)
     const img = weatherImages(`./${data.currentIcon}.webp`);
-    const svg = createSvg(weatherIcons(`./${data.currentIcon}.svg`));
+    const svg = createSvg(weatherIcons(`./${data.currentIcon}.svg`), 6);
     document.body.style.background = `url(${img})`;
     while (svgContainer.firstChild) {
       svgContainer.removeChild(svgContainer.firstChild);
@@ -76,10 +79,73 @@ const elementHandler = (function() {
     for (const key of Object.keys(data.conditions)) {
       document.querySelector(`#${key}`).textContent = data.conditions[key];
     }
+    while (weeklyOverview.firstChild) {
+      weeklyOverview.removeChild(weeklyOverview.firstChild);
+    }
+    data.days.forEach(day => {
+      const dayData = addDay(day);
+      weeklyOverview.appendChild(dayData);
+    });
     location.style.display = 'grid';
+    currentCondition.style.display = 'flex';
+    additionalInformation.style.display ='flex';
+    weeklyOverview.style.display = 'grid';
   }
 
+  function addDay(day) {
+    const container = document.createElement("div");
+    container.classList.add("day")
+    // --- day-date ---
+    const dayDate = document.createElement("div");
+    dayDate.classList.add("day-date");
 
+    const weekdayDiv = document.createElement("div");
+    weekdayDiv.classList.add("weekday");
+    weekdayDiv.textContent = day.day;
+
+    const dateDiv = document.createElement("div");
+    dateDiv.classList.add("date");
+    dateDiv.textContent = day.datetime;
+
+    // Append weekday and date to day-date
+    dayDate.appendChild(weekdayDiv);
+    dayDate.appendChild(dateDiv);
+
+    // --- day-svg-temp ---
+    const daySvgTemp = document.createElement("div");
+    daySvgTemp.classList.add("day-svg-temp");
+    
+    const daySvg = document.createElement("div");
+    daySvg.classList.add("day-svg");
+    const svg = createSvg(weatherIcons(`./${day.icon}.svg`), 3);
+    daySvg.appendChild(svg);
+
+    const temp = document.createElement("div");
+    temp.textContent = day.temp;
+    temp.classList.add('day-temp');
+
+    // Append svg and temps to day-svg-temp
+    daySvgTemp.appendChild(daySvg);
+    daySvgTemp.appendChild(temp);
+
+    // --- conditions ---
+    const conditions = document.createElement("div");
+    conditions.classList.add("day-conditions");
+    conditions.textContent = day.conditions;
+
+    // --- minmax ---
+    const minmax = document.createElement("div");
+    minmax.classList.add("day-minmax");
+    minmax.textContent = `Min: ${day.tempmin} Max: ${day.tempmax}`;
+
+    // --- Assemble all into container ---
+    container.appendChild(dayDate);
+    container.appendChild(daySvgTemp);
+    container.appendChild(conditions);
+    container.appendChild(minmax);
+    
+    return container;
+  }
 
   return { addListeners }
 })();

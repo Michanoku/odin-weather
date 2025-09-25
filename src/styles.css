@@ -61,7 +61,7 @@ button:hover {
   min-width: 100vw;
   display: grid;
   grid-template-rows: 1fr 4rem 1fr;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   grid-template-areas: 
     'location current additional' 
     'search search search'
@@ -109,10 +109,24 @@ button:hover {
 
 #current-condition {
   grid-area: current;
+  font-size: 2rem;
+  color: #ffffff;
+  text-shadow: -1px -1px 1px rgba(255,255,255,.1), 1px 1px 1px rgba(0,0,0,.5);
+  display: none;
+  flex-direction: column;
+  justify-content: end;
+  gap: 0.6rem;
 }
 
 #additional-information {
   grid-area: additional;
+  font-size: 2rem;
+  color: #ffffff;
+  text-shadow: -1px -1px 1px rgba(255,255,255,.1), 1px 1px 1px rgba(0,0,0,.5);
+  display: none;
+  flex-direction: column;
+  justify-content: end;
+  gap: 0.6rem;
 }
 
 #center-search {
@@ -140,4 +154,39 @@ button:hover {
 
 #weekly-overview {
   grid-area: weekly;
+  display: none;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  color: #ffffff;
+  text-shadow: -1px -1px 1px rgba(255,255,255,.1), 1px 1px 1px rgba(0,0,0,.5);
+}
+
+.day {
+  padding: 0.6rem;
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+}
+.weekday {
+  font-size: 2rem;
+}
+
+.date {
+  font-size: 1.125rem;
+}
+
+.day-svg-temp {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 1rem;
+}
+
+.day-temp {
+  font-size: 2rem;
+}
+
+.day-conditions{
+  font-size: 1.25rem;
 }
