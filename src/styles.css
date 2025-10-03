@@ -18,9 +18,36 @@ input {
 }
 
 body {
+  color: #ffffff;
+  text-shadow: -1px -1px 1px rgba(255,255,255,.1), 1px 1px 1px rgba(0,0,0,.5);
   background: url('./img/weather/idle.webp');
   background-size: cover;
   background-position: center center;
+  position: relative;
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+a {
+  color: #ffffff;
+}
+
+#fade-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #15203a;
+  opacity: 0;
+  z-index: 5;
+  transition: opacity 1s ease;
+  pointer-events: none;
+}
+
+#fade-layer.fade {
+  opacity: 1;
 }
 
 input {
@@ -60,23 +87,24 @@ button:hover {
   min-height: 100vh;
   min-width: 100vw;
   display: grid;
-  grid-template-rows: 1fr 4rem 1fr;
+  grid-template-rows: 6rem 1fr 4rem 1fr 2rem;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   grid-template-areas: 
+    'address address address'
     'location current additional' 
     'search search search'
-    'weekly weekly weekly';
+    'weekly weekly weekly'
+    'credits credits credits';
 }
 
 #location {
+  z-index: 2;
   padding: 1rem;
   grid-area: location;
-  color: #ffffff;
-  text-shadow: -1px -1px 1px rgba(255,255,255,.1), 1px 1px 1px rgba(0,0,0,.5);
   display: none;
-  grid-template-rows: 1fr 1fr 2rem;
+  grid-template-rows: 1fr 2rem;
   grid-template-columns: 1fr;
-  grid-template-areas: 'address' 'svg-temp' 'conditions';
+  grid-template-areas: 'svg-temp' 'conditions';
 }
 
 #resolvedAddress {
@@ -85,7 +113,7 @@ button:hover {
 }
   
 #svg-temp{
-  align-self: center;
+  align-self: end;
   display: flex;
   justify-content: start;
   align-items: center;
@@ -103,15 +131,15 @@ button:hover {
 }
 
 #conditions {
+  align-self: end;
   grid-area: conditions;
   font-size: 2rem;
 }
 
 #current-condition {
+  z-index: 2;
   grid-area: current;
   font-size: 2rem;
-  color: #ffffff;
-  text-shadow: -1px -1px 1px rgba(255,255,255,.1), 1px 1px 1px rgba(0,0,0,.5);
   display: none;
   flex-direction: column;
   justify-content: end;
@@ -119,10 +147,10 @@ button:hover {
 }
 
 #additional-information {
+  z-index: 2;
   grid-area: additional;
+  padding: 0.5rem;
   font-size: 2rem;
-  color: #ffffff;
-  text-shadow: -1px -1px 1px rgba(255,255,255,.1), 1px 1px 1px rgba(0,0,0,.5);
   display: none;
   flex-direction: column;
   justify-content: end;
@@ -130,6 +158,7 @@ button:hover {
 }
 
 #center-search {
+  z-index: 8;
   grid-area: search;
   background: rgba(0, 0, 0, 0.3);
   position: relative;
@@ -153,11 +182,10 @@ button:hover {
 }
 
 #weekly-overview {
+  z-index: 2;
   grid-area: weekly;
   display: none;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  color: #ffffff;
-  text-shadow: -1px -1px 1px rgba(255,255,255,.1), 1px 1px 1px rgba(0,0,0,.5);
 }
 
 .day {
@@ -189,4 +217,52 @@ button:hover {
 
 .day-conditions{
   font-size: 1.25rem;
+}
+
+#progress-container {
+  position: relative;
+  height: 2rem;
+}
+
+#progress-bar {
+  position: relative;
+  background-color: #ffffff;
+  height: 1.5rem;
+  overflow: hidden;
+  border-radius: 15px;
+}
+
+#progress-current {
+  background-color: yellow;
+  height: 100%;
+  width: 0%;
+}
+
+#difference {
+  font-size: 1rem;
+  color: #15203a;
+  text-shadow: 2px 2px 2px #B6AB9C;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+#sun {
+  position: absolute;
+  top: 0rem;
+  left: 0rem;
+}
+
+#sunrise-sunset {
+  display: flex;
+  justify-content: space-between;
+}
+
+#credits {
+  padding-right: 2rem;
+  grid-area: credits;
+  text-align: end;
+  font-size: 1rem;
 }

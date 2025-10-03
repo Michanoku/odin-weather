@@ -21,14 +21,13 @@ const APIHandler = (function () {
     const times = getLocalSunTimes(rawWeatherData.tzoffset, rawWeatherData.currentConditions.sunriseEpoch, rawWeatherData.currentConditions.sunsetEpoch)
     const weatherData = {
       currentIcon: rawWeatherData.currentConditions.icon,
+      progress: times.progress,
       conditions: {
         resolvedAddress: rawWeatherData.resolvedAddress,
         time: times.time,
         sunrise: times.sunrise,
         sunset: times.sunset,
         difference: times.difference,
-        daylight: times.daylight,
-        progress: times.progress,
         temp: adjustTemp(rawWeatherData.currentConditions.temp),
         feelslike: `Feels like ${adjustTemp(rawWeatherData.currentConditions.feelslike)}`,
         conditions: rawWeatherData.currentConditions.conditions,
@@ -115,17 +114,15 @@ const APIHandler = (function () {
     };
 
     const until = getFormattedTime(Math.max(0, untilSunsetMilliseconds));
-    const daylight = getFormattedTime(totalDayMilliseconds);
 
     const pad = (n) => String(n).padStart(2, '0');
 
     return {
-      time: `Time: ${pad(nowClock.h)}:${pad(nowClock.m)}`,                        
-      sunrise: `Sunrise: ${pad(sunriseClock.h)}:${pad(sunriseClock.m)}`,                
-      sunset: `Sunset: ${pad(sunsetClock.h)}:${pad(sunsetClock.m)}`,                 
-      difference: `Until sunset: ${pad(until.hours)}h ${pad(until.minutes)}m`,
-      daylight: `Total daylight: ${pad(daylight.hours)}h ${pad(daylight.minutes)}m`,
-      progress: `Daylight progress: ${progress}%`,
+      time: `Current time: ${pad(nowClock.h)}:${pad(nowClock.m)}`,                        
+      sunrise: `${pad(sunriseClock.h)}:${pad(sunriseClock.m)}`,                
+      sunset: `${pad(sunsetClock.h)}:${pad(sunsetClock.m)}`,                 
+      difference: `Sunset in: ${pad(until.hours)}h ${pad(until.minutes)}m`,
+      progress: progress,
     };
   }
 

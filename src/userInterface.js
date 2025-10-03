@@ -12,6 +12,10 @@ const elementHandler = (function() {
   const additionalInformation = document.querySelector('#additional-information');
   const weeklyOverview = document.querySelector('#weekly-overview');
   const svgContainer = document.querySelector('#svg');
+  const credits = document.querySelector('#credits');
+  const fadeLayer = document.querySelector('#fade-layer');
+  const sun = document.querySelector('#sun');
+  const progressCurrent = document.querySelector('#progress-current');
 
   const conditionImages = {
     'snow':	'Photo by <a href="https://unsplash.com/@victorserban?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Victor Serban</a> on <a href="https://unsplash.com/photos/snow-covered-tree-branches-during-daytime-6Xqj98qWsoo?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>',
@@ -43,6 +47,7 @@ const elementHandler = (function() {
   function addListeners() {
     // Add Event Listeners
     submitButton.addEventListener('click', async () => {
+      fadeToBlack();
       const value = inputField.value;
       submitButton.classList.add("clicked");
       submitButton.addEventListener('transitionend', () => {
@@ -53,7 +58,16 @@ const elementHandler = (function() {
         console.log(FormData)
         showWeather(data);
       }
+      fadeFromBlack();
     });
+  }
+
+  function fadeToBlack() {
+    fadeLayer.classList.add("fade");
+  }
+
+  function fadeFromBlack() {
+    fadeLayer.classList.remove("fade");
   }
 
   function createSvg(rawData, size) {
@@ -82,10 +96,13 @@ const elementHandler = (function() {
     while (weeklyOverview.firstChild) {
       weeklyOverview.removeChild(weeklyOverview.firstChild);
     }
+    progressCurrent.style.width = `${data.progress}%`;
+    sun.style.left = `calc(${data.progress}% - 1rem)`;
     data.days.forEach(day => {
       const dayData = addDay(day);
       weeklyOverview.appendChild(dayData);
     });
+    credits.innerHTML = conditionImages[data.currentIcon];
     location.style.display = 'grid';
     currentCondition.style.display = 'flex';
     additionalInformation.style.display ='flex';
